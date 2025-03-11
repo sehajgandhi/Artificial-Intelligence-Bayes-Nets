@@ -1,11 +1,10 @@
 import sys
+import secrets
 
 '''
 WRITE YOUR CODE BELOW.
 '''
 from numpy import zeros, float32
-#  pgmpy͏︅͏︀͏︋͏︋͏󠄌͏󠄎͏󠄋͏︇͏󠄋͏󠄐
-import random # random for sampling probs
 import pgmpy
 from pgmpy.models import BayesianNetwork
 from pgmpy.factors.discrete import TabularCPD
@@ -216,17 +215,17 @@ def Gibbs_sampler(bayes_net, initial_state):
     # Handle initial_state being None or empty
     if not initial_state or len(initial_state) != 6:
         initial_state = [
-            random.randint(0, 3),  
-            random.randint(0, 3),  
-            random.randint(0, 3),  
+            secrets.SystemRandom().randint(0, 3),  
+            secrets.SystemRandom().randint(0, 3),  
+            secrets.SystemRandom().randint(0, 3),  
             0,                    
-            random.randint(0, 2),  
+            secrets.SystemRandom().randint(0, 2),  
             2                      
         ]
     
     sample = tuple(initial_state)    
     non_evidence_indices = [0,1,2,4]
-    variable_index = random.choice(non_evidence_indices)
+    variable_index = secrets.choice(non_evidence_indices)
     state = list(sample)
     if variable_index == 0:
         A_values = [0,1,2,3]
@@ -242,7 +241,7 @@ def Gibbs_sampler(bayes_net, initial_state):
             probs.append(prob)
         total = sum(probs)
         normalized_probs = [p/total for p in probs]
-        new_A = random.choices(A_values, weights=normalized_probs)[0]
+        new_A = secrets.SystemRandom().choices(A_values, weights=normalized_probs)[0]
         state[0] = new_A
     elif variable_index == 1:
         B_values = [0,1,2,3]
@@ -258,7 +257,7 @@ def Gibbs_sampler(bayes_net, initial_state):
             probs.append(prob)
         total = sum(probs)
         normalized_probs = [p/total for p in probs]
-        new_B = random.choices(B_values, weights=normalized_probs)[0]
+        new_B = secrets.SystemRandom().choices(B_values, weights=normalized_probs)[0]
         state[1] = new_B
     elif variable_index == 2:
         C_values = [0,1,2,3]
@@ -274,7 +273,7 @@ def Gibbs_sampler(bayes_net, initial_state):
             probs.append(prob)
         total = sum(probs)
         normalized_probs = [p/total for p in probs]
-        new_C = random.choices(C_values, weights=normalized_probs)[0]
+        new_C = secrets.SystemRandom().choices(C_values, weights=normalized_probs)[0]
         state[2] = new_C
     elif variable_index == 4:
         BvC_values = [0,1,2]
@@ -285,7 +284,7 @@ def Gibbs_sampler(bayes_net, initial_state):
             probs.append(P_BvC)
         total = sum(probs)
         normalized_probs = [p/total for p in probs]
-        new_BvC = random.choices(BvC_values, weights=normalized_probs)[0]
+        new_BvC = secrets.SystemRandom().choices(BvC_values, weights=normalized_probs)[0]
         state[4] = new_BvC
     else:
         raise ValueError("Variable index out of range")
@@ -304,11 +303,11 @@ def MH_sampler(bayes_net, initial_state):
 
     if not initial_state or len(initial_state) != 6:
         initial_state = [
-            random.randint(0, 3),  
-            random.randint(0, 3),  
-            random.randint(0, 3), 
+            secrets.SystemRandom().randint(0, 3),  
+            secrets.SystemRandom().randint(0, 3),  
+            secrets.SystemRandom().randint(0, 3), 
             0,                     
-            random.randint(0, 2),  
+            secrets.SystemRandom().randint(0, 2),  
             2                      
         ]
 
@@ -322,9 +321,9 @@ def MH_sampler(bayes_net, initial_state):
     non_evidence_indices = [0,1,2,4]
     for idx in non_evidence_indices:
         if idx in [0,1,2]:
-            candidate_state[idx] = random.randint(0,3)
+            candidate_state[idx] = secrets.SystemRandom().randint(0,3)
         elif idx == 4:
-            candidate_state[idx] = random.randint(0,2)
+            candidate_state[idx] = secrets.SystemRandom().randint(0,2)
     def compute_joint_prob(state):
         A_val = state[0]
         B_val = state[1]
@@ -347,7 +346,7 @@ def MH_sampler(bayes_net, initial_state):
     P_current = compute_joint_prob(state)
     P_candidate = compute_joint_prob(candidate_state)
     alpha = min(1, P_candidate / P_current) if P_current > 0 else 1
-    if random.random() < alpha:
+    if secrets.SystemRandom().random() < alpha:
         sample = tuple(candidate_state)
     else:
         sample = tuple(state)    
@@ -361,11 +360,11 @@ def compare_sampling(bayes_net, initial_state):
 
     if not initial_state or len(initial_state) != 6:
         initial_state = [
-            random.randint(0, 3),  
-            random.randint(0, 3),  
-            random.randint(0, 3), 
+            secrets.SystemRandom().randint(0, 3),  
+            secrets.SystemRandom().randint(0, 3),  
+            secrets.SystemRandom().randint(0, 3), 
             0,                     
-            random.randint(0, 2),  
+            secrets.SystemRandom().randint(0, 2),  
             2                      
         ]
     
