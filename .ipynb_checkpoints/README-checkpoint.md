@@ -1,6 +1,3 @@
-## Solution Location
-My solution is in `submission.py`.
-
 ## CS 6601 Assignment 3: Bayes Nets
 
 In this assignment, you will work with probabilistic models known as Bayesian networks to efficiently calculate the answer to probability questions concerning discrete random variables.
@@ -376,7 +373,7 @@ _[19 points]_
 Now we are ready for the moment of truth.
 
 Given the same outcomes as in 2b, A beats B and A draws with C, you should now estimate the likelihood of different outcomes for the third match by running Gibbs sampling until it converges to a stationary distribution. 
-We'll say that the sampler has converged when, for "N" successive iterations, the difference in estimated outcome for the 3rd match differs from the previous expected outcome by less than "delta". `N` is a positive integer, `delta` goes from `(0,1)`. For the most stationary convergence, `delta` should be very small. `N` could typically take values like 10,20,...,100 or even more.
+We'll say that the sampler has converged when, for "N" successive iterations, the difference in expected outcome for the 3rd match differs from the previous estimated outcome by less than "delta". `N` is a positive integer, `delta` goes from `(0,1)`. For the most stationary convergence, `delta` should be very small. `N` could typically take values like 10,20,...,100 or even more.
 
 Use the functions from 2c and 2d to measure how many iterations it takes for Gibbs and MH to converge to a stationary distribution over the posterior. See for yourself how close (or not) this stable distribution is to what the Inference Engine returned in 2b. And if not, try tuning those parameters(N and delta). (You might find the concept of "burn-in" period useful). 
 
